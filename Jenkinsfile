@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.6.3'  // Ensure Maven is installed on Jenkins and available
+        maven 'Maven 3.9.9'  // Ensure Maven is installed on Jenkins and available
     }
 
     stages {
         stage('Checkout Code') {
             steps {
                 // Checkout the code from the repository
-                git 'https://github.com/your-repo/selenium-jenkins-integration.git'
+                git 'https://github.com/rimas123-creator/selenium-jenkins.git'
             }
         }
 

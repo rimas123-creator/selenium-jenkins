@@ -2,25 +2,39 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Build') {
             steps {
-                git 'https://github.com/rimas123-creator/selenium-jenkins.git'
+                script {
+                    sh 'mvn clean install'
+                }
             }
         }
-        stage('Install Dependencies') {
+        stage('Run Tests') {
             steps {
-                sh 'mvn clean install'
+                script {
+                    sh 'mvn test'
+                }
             }
         }
-        stage('Run Selenium Tests') {
+        stage('Generate Report') {
             steps {
-                sh 'mvn test'
+                script {
+                    sh 'mvn allure:report'
+                }
             }
         }
     }
     post {
         always {
-            junit '**/target/surefire-reports/*.xml'
+            allure([
+                results: [[path: 'target/allure-results']]
+            ])
+        }
+        success {
+            echo 'Tests passed! Check the report.'
+        }
+        failure {
+            echo 'Tests failed! Check the report.'
         }
     }
 }

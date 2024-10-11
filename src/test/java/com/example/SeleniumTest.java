@@ -1,34 +1,33 @@
 package com.example;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Step;
+import io.qameta.allure.Story;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import io.github.bonigarcia.wdm.WebDriverManager;
-
-import static org.junit.Assert.assertEquals;
 
 public class SeleniumTest {
-
     private WebDriver driver;
 
     @Before
     public void setUp() {
-        WebDriverManager.chromedriver().setup();
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
         driver = new ChromeDriver();
     }
 
     @Test
+    @Description("Verify the title of Google")
+    @Story("Title Verification")
     public void testGoogleTitle() {
         driver.get("https://www.google.com");
-        assertEquals("Google", driver.getTitle());
+        assert driver.getTitle().equals("Google");
     }
 
     @After
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        driver.quit();
     }
 }
